@@ -1,0 +1,30 @@
+name: Publish to Central Repository
+author: Samuel Meuli
+description: Publishes the Maven project to the Central Repository
+
+inputs:
+  gpgPrivateKey:
+    description: base64-encoded GPG private key for signing the published artifacts
+    required: true
+  gpgPassphrase:
+    description: Passphrase for the GPG key
+    required: true
+  ossrhUsername:
+    description: Username for Sonatype OSSRH (OSS Repository Hosting)
+    required: true
+  ossrhPassword:
+    description: Password for Sonatype OSSRH (OSS Repository Hosting)
+    required: true
+
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    gpgPrivateKey: ${{ inputs.gpgPrivateKey }}
+    gpgPassphrase: ${{ inputs.gpgPassphrase }}
+    ossrhUsername: ${{ inputs.ossrhUsername }}
+    ossrhPassword: ${{ inputs.ossrhPassword }}
+
+branding:
+  icon: upload-cloud
+  color: orange

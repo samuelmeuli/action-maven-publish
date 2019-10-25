@@ -15,18 +15,18 @@
 			<properties>
 				<gpg.executable>gpg</gpg.executable>
 				<!-- Load passphrase from env variable -->
-				<gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+				<gpg.passphrase>${env.gpgPassphrase}</gpg.passphrase>
 			</properties>
 		</profile>
 	</profiles>
 
 	<servers>
-		<!-- Sonatype credentials -->
+		<!-- Sonatype OSSRH credentials -->
 		<server>
 			<id>ossrh</id>
 			<!-- Load credentials from env variables -->
-			<username>${env.SONATYPE_USERNAME}</username>
-			<password>${env.SONATYPE_PASSWORD}</password>
+			<username>${env.ossrhUsername}</username>
+			<password>${env.ossrhPassword}</password>
 		</server>
 	</servers>
 </settings>
