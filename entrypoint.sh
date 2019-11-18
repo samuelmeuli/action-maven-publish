@@ -11,7 +11,8 @@
 echo ${GPG_PRIVATE_KEY} | base64 --decode | gpg --batch --import
 
 # Deploy to OSSRH, which will automatically release to Central Repository
+cd $GITHUB_WORKSPACE
 mvn clean deploy \
 	--batch-mode \
 	--activate-profiles deploy \
-	--settings ./settings.xml
+	--settings /settings.xml
