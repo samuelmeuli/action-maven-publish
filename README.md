@@ -28,12 +28,12 @@ In the plugin's configuration, you will probably want to set the following optio
 
 In your project's GitHub repository, go to Settings → Secrets. On this page, set the following variables:
 
-- `gpgPrivateKey`: The GPG base64-encoded private key you use to sign the published artifacts:
+- `gpg_private_key`: The GPG base64-encoded private key you use to sign the published artifacts:
   - Run `gpg --list-secret-keys` and locate the key you'd like to use. Copy its ID
   - Export and encode the key with `gpg -a --export-secret-keys KEY_ID | base64` (and replace `KEY_ID` with the ID you copied)
-- `gpgPassphrase`: The passphrase for the exported GPG key
-- `ossrhUsername`: Your Sonatype OSSRH username (not the email address!)
-- `ossrhPassword`: Your Sonatype OSSRH password
+- `gpg_passphrase`: The passphrase for the exported GPG key
+- `ossrh_username`: Your Sonatype OSSRH username (not the email address!)
+- `ossrh_password`: Your Sonatype OSSRH password
 
 These secrets will be passed as environment variables into the action, allowing it to do the deployment for you.
 
@@ -60,10 +60,10 @@ jobs:
       - name: Release to Central Repository
         uses: samuelmeuli/action-maven-publish@master
         with:
-          gpgPrivateKey: ${{ secrets.gpgPrivateKey }}
-          gpgPassphrase: ${{ secrets.gpgPassphrase }}
-          ossrhUsername: ${{ secrets.ossrhUsername }}
-          ossrhPassword: ${{ secrets.ossrhPassword }}
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          ossrh_username: ${{ secrets.ossrh_username }}
+          ossrh_password: ${{ secrets.ossrh_password }}
 ```
 
 This should be all the configuration you need. Every time you push to `master`, the action will be run. If your `pom.xml` file contains a non-snapshot version tag and all tests pass, your package will automatically be deployed to the Central Repository.

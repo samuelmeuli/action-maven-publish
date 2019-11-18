@@ -15,7 +15,7 @@
 			<properties>
 				<gpg.executable>gpg</gpg.executable>
 				<!-- Load passphrase from env variable -->
-				<gpg.passphrase>${env.gpgPassphrase}</gpg.passphrase>
+				<gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
 			</properties>
 		</profile>
 	</profiles>
@@ -25,8 +25,8 @@
 		<server>
 			<id>ossrh</id>
 			<!-- Load credentials from env variables -->
-			<username>${env.ossrhUsername}</username>
-			<password>${env.ossrhPassword}</password>
+			<username>${env.OSSRH_USERNAME}</username>
+			<password>${env.OSSRH_PASSWORD}</password>
 		</server>
 	</servers>
 </settings>
