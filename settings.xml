@@ -8,7 +8,7 @@
 	<profiles>
 		<!-- GPG settings -->
 		<profile>
-			<id>ossrh</id>
+			<id>gpg</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -23,10 +23,10 @@
 	<servers>
 		<!-- Sonatype OSSRH credentials -->
 		<server>
-			<id>ossrh</id>
+			<id>${env.SERVER_ID}</id>
 			<!-- Load credentials from env variables -->
-			<username>${env.OSSRH_USERNAME}</username>
-			<password>${env.OSSRH_PASSWORD}</password>
+			<username>${env.NEXUS_USERNAME}</username>
+			<password>${env.NEXUS_PASSWORD}</password>
 		</server>
 	</servers>
 </settings>

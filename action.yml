@@ -1,20 +1,24 @@
-name: Publish to Central Repository
+name: action-maven-publish
 author: Samuel Meuli
-description: Publishes the Maven project to the Central Repository
+description: GitHub Action for automatically publishing Maven packages
 
 inputs:
   gpg_private_key:
-    description: base64-encoded GPG private key for signing the published artifacts
+    description: Base64-encoded GPG private key for signing the published artifacts
     required: true
   gpg_passphrase:
     description: Passphrase for the GPG key
     required: true
-  ossrh_username:
-    description: Username for Sonatype OSSRH (OSS Repository Hosting)
+  nexus_username:
+    description: Username (not email!) for your Nexus repository manager account
     required: true
-  ossrh_password:
-    description: Password for Sonatype OSSRH (OSS Repository Hosting)
+  nexus_password:
+    description: Password for your Nexus account
     required: true
+  server_id:
+    description: Nexus server ID as specified in your project's `nexus-staging-maven-plugin` and `distributionManagement` configurations
+    required: false
+    default: ossrh
 
 runs:
   using: docker
@@ -22,8 +26,9 @@ runs:
   env:
     GPG_PRIVATE_KEY: ${{ inputs.gpg_private_key }}
     GPG_PASSPHRASE: ${{ inputs.gpg_passphrase }}
-    OSSRH_USERNAME: ${{ inputs.ossrh_username }}
-    OSSRH_PASSWORD: ${{ inputs.ossrh_password }}
+    NEXUS_USERNAME: ${{ inputs.nexus_username }}
+    NEXUS_PASSWORD: ${{ inputs.nexus_password }}
+    SERVER_ID: ${{ inputs.server_id }}
 
 branding:
   icon: upload-cloud
