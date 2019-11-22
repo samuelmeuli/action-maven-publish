@@ -22,6 +22,32 @@ In the plugin's configuration, you will probably want to set the following optio
 </plugin>
 ```
 
+Furthermore, make sure your GPG plugin is configured like this:
+
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-gpg-plugin</artifactId>
+  <version>1.6</version>
+  <executions>
+    <execution>
+      <id>sign-artifacts</id>
+      <phase>verify</phase>
+      <goals>
+        <goal>sign</goal>
+      </goals>
+    <configuration>
+        <!-- Prevent `gpg` from using pinentry programs -->
+        <gpgArguments>
+          <arg>--pinentry-mode</arg>
+          <arg>loopback</arg>
+        </gpgArguments>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+
 ## Usage
 
 ### Authentication
