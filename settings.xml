@@ -15,7 +15,7 @@
 			<properties>
 				<gpg.executable>gpg</gpg.executable>
 				<!-- Load passphrase from env variable -->
-				<gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+				<gpg.passphrase>${env.INPUT_GPG_PASSPHRASE}</gpg.passphrase>
 			</properties>
 		</profile>
 	</profiles>
@@ -23,10 +23,10 @@
 	<servers>
 		<!-- Sonatype OSSRH credentials -->
 		<server>
-			<id>${env.SERVER_ID}</id>
+			<id>${env.INPUT_SERVER_ID}</id>
 			<!-- Load credentials from env variables -->
-			<username>${env.NEXUS_USERNAME}</username>
-			<password>${env.NEXUS_PASSWORD}</password>
+			<username>${env.INPUT_NEXUS_USERNAME}</username>
+			<password>${env.INPUT_NEXUS_PASSWORD}</password>
 		</server>
 	</servers>
 </settings>

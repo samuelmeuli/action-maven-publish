@@ -21,14 +21,8 @@ inputs:
     default: ossrh
 
 runs:
-  using: docker
-  image: Dockerfile
-  env:
-    GPG_PRIVATE_KEY: ${{ inputs.gpg_private_key }}
-    GPG_PASSPHRASE: ${{ inputs.gpg_passphrase }}
-    NEXUS_USERNAME: ${{ inputs.nexus_username }}
-    NEXUS_PASSWORD: ${{ inputs.nexus_password }}
-    SERVER_ID: ${{ inputs.server_id }}
+  using: node12
+  main: ./index.js
 
 branding:
   icon: upload-cloud
