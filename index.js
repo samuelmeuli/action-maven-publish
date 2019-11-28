@@ -1,6 +1,8 @@
 const { execSync } = require("child_process");
+const { writeFileSync } = require("fs");
 const path = require("path");
 
+const GPG_KEY_PATH = path.join(__dirname, "private-key.pem");
 const MAVEN_SETTINGS_PATH = path.join(__dirname, "settings.xml");
 
 /**
@@ -17,10 +19,10 @@ const run = cmd => execSync(cmd, { encoding: "utf8", stdio: "inherit" });
  * Runs the deployment
  */
 const runAction = () => {
-	// Import GPG key from env variable into keychain
-	// Env variable is base64 encoded -> Decode it before import
+	// Import GPG key into keychain
 	log("Importing GPG key…");
-	run("echo $INPUT_GPG_PRIVATE_KEY | base64 --decode | gpg --batch --import");
+	writeFileSync(GPG_KEY_PATH, process.env.INPUT_GPG_PRIVATE_KEY);
+	run(`gpg --import --batch ${GPG_KEY_PATH}`);
 
 	// Deploy to Nexus
 	// The "deploy" profile is used in case the user wants to perform certain steps only during

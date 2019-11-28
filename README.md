@@ -54,14 +54,14 @@ Furthermore, make sure your GPG plugin is configured like this:
 
 In your project's GitHub repository, go to Settings → Secrets. On this page, set the following variables:
 
-- `gpg_private_key`: Base64-encoded GPG private key for signing the published artifacts:
-  - Run `gpg --list-secret-keys` and locate the key you'd like to use. Copy its ID
-  - Export and encode the key with `gpg -a --export-secret-keys KEY_ID | base64` (and replace `KEY_ID` with the ID you copied)
+- `gpg_private_key`: GPG private key for signing the published artifacts:
+  - Run `gpg --list-secret-keys` and copy the ID of the key you'd like to use
+  - Export the key with `gpg -a --export-secret-keys KEY_ID` (and replace `KEY_ID` with the ID you copied)
 - `gpg_passphrase`: Passphrase for the GPG key
 - `nexus_username`: Username (not email!) for your Nexus repository manager account
 - `nexus_password`: Password for your Nexus account
 
-These secrets will be passed as environment variables into the action, allowing it to perform the deployment for you.
+These secrets will be provided to the action as environment variables, allowing it to perform the deployment for you.
 
 ### Action
 
@@ -70,7 +70,7 @@ Create a GitHub workflow file (e.g. `.github/workflows/release.yml`) in your rep
 ```yml
 name: Release
 
-# Run workflow only on commits to `master`
+# Run workflow on commits to the `master` branch
 on:
   push:
     branches:
@@ -97,12 +97,14 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
 ```
 
-This should be all the configuration you need. Every time you push to `master`, the action will be run. If your `pom.xml` file contains a non-snapshot version tag and all tests pass, your package will automatically be deployed.
+Every time you push to `master`, the action will be executed. If your `pom.xml` file contains a non-snapshot version tag and all tests pass, your package will automatically be deployed.
 
 ## Configuration
 
-- The default Nexus instance used by this action is OSSRH. If you are deploying to a **different Nexus instance**, you can pass in the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations) as a `server_id` input variable.
-- If you want to pass additional flags/arguments to the Maven deploy command, you can do that using the `maven_args` input variable.
+In addition to the input variables listed above, the action can be configured with the following variables:
+
+- **`server_id`:** The default Nexus instance used by this action is OSSRH. If you are deploying to a different Nexus instance, you can pass in the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations)
+- **`maven_args`:** Additional flags/arguments to pass to the Maven deploy command
 
 ## Development
 
@@ -111,7 +113,7 @@ This should be all the configuration you need. Every time you push to `master`, 
 The Maven Publish GitHub Action works the following way:
 
 - When imported from a CI workflow in your project, GitHub will look for this repository's [`action.yml`](./action.yml) file. This file tells GitHub to run the `index.js` script and to pass in the action's input variables (e.g. GPG key and Nexus login credentials).
-- The script decodes the GPG private key and runs the Maven deploy command. Maven will use this repository's [`settings.xml`](./settings.xml) file, which instructs it to use the GPG passphrase and Nexus credentials from the provided input variables.
+- The script imports the GPG key and runs the Maven deploy command. Maven will use this repository's [`settings.xml`](./settings.xml) file, which instructs it to use the GPG passphrase and Nexus credentials from the provided input variables. Maven will also use the `deploy` profile if you've defined one (in case you want to perform certain steps only when deploying).
 
 ### Contributing
 
