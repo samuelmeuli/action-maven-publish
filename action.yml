@@ -4,7 +4,7 @@ description: GitHub Action for automatically publishing Maven packages
 
 inputs:
   gpg_private_key:
-    description: Base64-encoded GPG private key for signing the published artifacts
+    description: GPG private key for signing the published artifacts
     required: true
   gpg_passphrase:
     description: Passphrase for the GPG key
