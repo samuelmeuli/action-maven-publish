@@ -83,6 +83,11 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v1
 
+      - name: Install Java and Maven
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
       - name: Release Maven package
         uses: samuelmeuli/action-maven-publish@master
         with:
@@ -96,7 +101,8 @@ This should be all the configuration you need. Every time you push to `master`, 
 
 ## Configuration
 
-The default Nexus instance used by this action is OSSRH. If you are deploying to a **different Nexus instance**, you can pass in the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations) as a `server_id` input variable.
+- The default Nexus instance used by this action is OSSRH. If you are deploying to a **different Nexus instance**, you can pass in the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations) as a `server_id` input variable.
+- If you want to pass additional flags/arguments to the Maven deploy command, you can do that using the `maven_args` input variable.
 
 ## Development
 
@@ -104,9 +110,8 @@ The default Nexus instance used by this action is OSSRH. If you are deploying to
 
 The Maven Publish GitHub Action works the following way:
 
-- When imported from a CI workflow in your project, GitHub will look for this repository's [`action.yml`](./action.yml) file. This file tells GitHub to run a new Docker container for the action and to pass in the action's input variables (GPG key and OSSRH login credentials).
-- Docker will spin up a new container with Java and Maven installed (see [`Dockerfile`](./Dockerfile)).
-- In the container, the [`entrypoint.sh`](./entrypoint.sh) script will be executed. It checks whether all required variables are defined, decodes the GPG private key and runs the Maven deploy command. Maven will use this repository's [`settings.xml`](./settings.xml) file, which instructs it to use the GPG passphrase and Nexus credentials from the provided environment variables.
+- When imported from a CI workflow in your project, GitHub will look for this repository's [`action.yml`](./action.yml) file. This file tells GitHub to run the `index.js` script and to pass in the action's input variables (e.g. GPG key and Nexus login credentials).
+- The script decodes the GPG private key and runs the Maven deploy command. Maven will use this repository's [`settings.xml`](./settings.xml) file, which instructs it to use the GPG passphrase and Nexus credentials from the provided input variables.
 
 ### Contributing
 
