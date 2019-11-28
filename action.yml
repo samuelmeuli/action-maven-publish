@@ -19,6 +19,10 @@ inputs:
     description: Nexus server ID as specified in your project's `nexus-staging-maven-plugin` and `distributionManagement` configurations
     required: false
     default: ossrh
+  maven_args:
+    description: Additional flags/arguments to pass to the Maven deploy command
+    required: false
+    default: ""
 
 runs:
   using: node12

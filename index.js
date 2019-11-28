@@ -26,7 +26,9 @@ const runAction = () => {
 	// The "deploy" profile is used in case the user wants to perform certain steps only during
 	// deployment and not in the install phase
 	log("Deploying the Maven project…");
-	run(`mvn clean deploy --batch-mode --activate-profiles deploy --settings ${MAVEN_SETTINGS_PATH}`);
+	run(
+		`mvn clean deploy --batch-mode --activate-profiles deploy --settings ${MAVEN_SETTINGS_PATH} $INPUT_MAVEN_ARGS`,
+	);
 };
 
 runAction();
