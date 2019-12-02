@@ -2,55 +2,27 @@
 
 **GitHub Action for automatically publishing Maven packages**
 
-It's recommended to publish using the [Nexus Staging Maven Plugin](https://github.com/sonatype/nexus-maven-plugins/tree/master/staging/maven-plugin), which greatly simplifies the process.
+## Overview
 
-## Requirements
+This action…
 
-The following instructions assume that you've already configured your repository for deployment using the Nexus Staging Maven Plugin. If you haven't, you can read about how to do this [here](https://central.sonatype.org/pages/apache-maven.html).
+- Executes the Maven `deploy` lifecycle phase
+- Provides Maven with your GPG key and passphrase so your artifacts can be signed using `maven-gpg-plugin`
+- Provides Maven with your Nexus credentials so it can deploy and release your project
 
-In the plugin's configuration, you will probably want to set the following option to automatically deploy to the Central Repository after successfully staging on Nexus:
+It will also use the `deploy` Maven profile if you've defined one (in case you want to perform certain steps only when deploying).
 
-```xml
-<plugin>
-  <groupId>org.sonatype.plugins</groupId>
-  <artifactId>nexus-staging-maven-plugin</artifactId>
-  <!-- ... -->
-  <configuration>
-    <!-- ... -->
-    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-  </configuration>
-</plugin>
-```
+## Setup
 
-Furthermore, make sure your GPG plugin is configured like this:
+### Deployment
 
-```xml
-<plugin>
-  <groupId>org.apache.maven.plugins</groupId>
-  <artifactId>maven-gpg-plugin</artifactId>
-  <version>1.6</version>
-  <executions>
-    <execution>
-      <id>sign-artifacts</id>
-      <phase>verify</phase>
-      <goals>
-        <goal>sign</goal>
-      </goals>
-    <configuration>
-        <!-- Prevent `gpg` from using pinentry programs -->
-        <gpgArguments>
-          <arg>--pinentry-mode</arg>
-          <arg>loopback</arg>
-        </gpgArguments>
-      </configuration>
-    </execution>
-  </executions>
-</plugin>
-```
+It's recommended to publish using the Nexus Staging Maven Plugin, which greatly simplifies the process. You can follow [this guide](./docs/deployment-setup.md) for a simple configuration.
 
-## Usage
+Make sure your project is correctly configured for deployment before continuing with the next step.
 
-### Authentication
+### Workflow
+
+#### Secrets
 
 In your project's GitHub repository, go to Settings → Secrets. On this page, set the following variables:
 
@@ -61,9 +33,7 @@ In your project's GitHub repository, go to Settings → Secrets. On this page, s
 - `nexus_username`: Username (not email!) for your Nexus repository manager account
 - `nexus_password`: Password for your Nexus account
 
-These secrets will be provided to the action as environment variables, allowing it to perform the deployment for you.
-
-### Action
+#### Workflow file
 
 Create a GitHub workflow file (e.g. `.github/workflows/release.yml`) in your repository. Use the following configuration, which tells GitHub to use the Maven Publish Action when running your CI pipeline. The steps are self-explanatory:
 
@@ -97,24 +67,27 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
 ```
 
-Every time you push to `master`, the action will be executed. If your `pom.xml` file contains a non-snapshot version tag and all tests pass, your package will automatically be deployed.
+Every time you push to `master`, the action will be executed. If your `pom.xml` file contains a non-snapshot version number and all tests pass, your package will be deployed automatically.
 
 ## Configuration
 
-In addition to the input variables listed above, the action can be configured with the following variables:
+In addition to the input variables listed above, the action can be configured with the following options:
 
-- **`server_id`:** The default Nexus instance used by this action is OSSRH. If you are deploying to a different Nexus instance, you can pass in the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations)
-- **`maven_args`:** Additional flags/arguments to pass to the Maven deploy command
+- **`server_id`:** The default Nexus instance used by this action is OSSRH. If you are deploying to a different Nexus instance, you can specify the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations) here
+- **`maven_args`:** Additional flags/arguments to pass to the Maven `deploy` command
 
 ## Development
-
-### Implementation
-
-The Maven Publish GitHub Action works the following way:
-
-- When imported from a CI workflow in your project, GitHub will look for this repository's [`action.yml`](./action.yml) file. This file tells GitHub to run the `index.js` script and to pass in the action's input variables (e.g. GPG key and Nexus login credentials).
-- The script imports the GPG key and runs the Maven deploy command. Maven will use this repository's [`settings.xml`](./settings.xml) file, which instructs it to use the GPG passphrase and Nexus credentials from the provided input variables. Maven will also use the `deploy` profile if you've defined one (in case you want to perform certain steps only when deploying).
 
 ### Contributing
 
 Suggestions and contributions are always welcome! Please discuss larger changes via issue before submitting a pull request.
+
+### Setup
+
+Make sure you have Node.js and Yarn installed.
+
+After cloning this repository, do the following:
+
+1. Install all dependencies using `yarn install`. This will set up Git hooks so your code is linted and formatted before creating a commit
+2. Make your modifications to the action
+3. Test your action on a repository. You can import it from your fork like this: `uses: your-github-username/action-maven-publish@your-branch-name`
