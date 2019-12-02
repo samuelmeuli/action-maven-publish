@@ -59,7 +59,7 @@ jobs:
           java-version: 11
 
       - name: Release Maven package
-        uses: samuelmeuli/action-maven-publish@0.1.0
+        uses: samuelmeuli/action-maven-publish@v1
         with:
           gpg_private_key: ${{ secrets.gpg_private_key }}
           gpg_passphrase: ${{ secrets.gpg_passphrase }}
