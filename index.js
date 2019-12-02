@@ -2,7 +2,7 @@ const { execSync } = require("child_process");
 const { unlinkSync, writeFileSync } = require("fs");
 const path = require("path");
 
-const GPG_KEY_PATH = path.join(__dirname, "private-key.pem");
+const GPG_KEY_PATH = path.join(__dirname, "private-key.txt");
 const MAVEN_SETTINGS_PATH = path.join(__dirname, "settings.xml");
 
 /**
