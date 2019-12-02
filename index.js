@@ -1,5 +1,5 @@
 const { execSync } = require("child_process");
-const { writeFileSync } = require("fs");
+const { unlinkSync, writeFileSync } = require("fs");
 const path = require("path");
 
 const GPG_KEY_PATH = path.join(__dirname, "private-key.pem");
@@ -23,6 +23,7 @@ const runAction = () => {
 	log("Importing GPG key…");
 	writeFileSync(GPG_KEY_PATH, process.env.INPUT_GPG_PRIVATE_KEY);
 	run(`gpg --import --batch ${GPG_KEY_PATH}`);
+	unlinkSync(GPG_KEY_PATH);
 
 	// Deploy to Nexus
 	// The "deploy" profile is used in case the user wants to perform certain steps only during
