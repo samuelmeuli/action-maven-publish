@@ -1,0 +1,35 @@
+name: Test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-10.14, ubuntu-18.04, windows-2019]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 13
+
+      - name: Install GPG
+        if: startsWith(matrix.os, 'macos')
+        run: brew install gnupg
+
+      - name: Run action
+        uses: ./
+        with:
+          directory: ./test/my-app
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
