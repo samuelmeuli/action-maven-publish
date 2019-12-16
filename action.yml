@@ -25,7 +25,6 @@ inputs:
   maven_args:
     description: Additional flags/arguments to pass to the Maven deploy command
     required: false
-    default: ""
 
 runs:
   using: node12

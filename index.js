@@ -60,7 +60,9 @@ const runAction = () => {
 	// deployment and not in the install phase
 	log("Deploying the Maven project…");
 	run(
-		`mvn clean deploy --batch-mode --activate-profiles deploy --settings ${mavenSettingsPath} $INPUT_MAVEN_ARGS`,
+		`mvn clean deploy --batch-mode --activate-profiles deploy --settings ${mavenSettingsPath} ${getInput(
+			"maven_args",
+		) || ""}`,
 		getInput("directory"),
 	);
 };
