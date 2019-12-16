@@ -79,16 +79,4 @@ In addition to the input variables listed above, the action can be configured wi
 
 ## Development
 
-### Contributing
-
 Suggestions and contributions are always welcome! Please discuss larger changes via issue before submitting a pull request.
-
-### Setup
-
-Make sure you have Node.js and Yarn installed.
-
-After cloning this repository, do the following:
-
-1. Install all dependencies using `yarn install`. This will set up Git hooks so your code is linted and formatted before creating a commit
-2. Make your modifications to the action
-3. Test your action on a repository. You can import it from your fork like this: `uses: your-github-username/action-maven-publish@your-branch-name`
