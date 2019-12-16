@@ -2,8 +2,8 @@ const { execSync } = require("child_process");
 const { unlinkSync, writeFileSync } = require("fs");
 const path = require("path");
 
-const GPG_KEY_PATH = path.join(__dirname, "private-key.txt");
-const MAVEN_SETTINGS_PATH = path.join(__dirname, "settings.xml");
+const gpgKeyPath = path.join(__dirname, "private-key.txt");
+const mavenSettingsPath = path.join(__dirname, "settings.xml");
 
 /**
  * Logs to the console
@@ -51,16 +51,16 @@ const runAction = () => {
 
 	// Import GPG key into keychain
 	log("Importing GPG key…");
-	writeFileSync(GPG_KEY_PATH, getInput("gpg_private_key", true));
-	run(`gpg --import --batch ${GPG_KEY_PATH}`);
-	unlinkSync(GPG_KEY_PATH);
+	writeFileSync(gpgKeyPath, getInput("gpg_private_key", true));
+	run(`gpg --import --batch ${gpgKeyPath}`);
+	unlinkSync(gpgKeyPath);
 
 	// Deploy to Nexus
 	// The "deploy" profile is used in case the user wants to perform certain steps only during
 	// deployment and not in the install phase
 	log("Deploying the Maven project…");
 	run(
-		`mvn clean deploy --batch-mode --activate-profiles deploy --settings ${MAVEN_SETTINGS_PATH} $INPUT_MAVEN_ARGS`,
+		`mvn clean deploy --batch-mode --activate-profiles deploy --settings ${mavenSettingsPath} $INPUT_MAVEN_ARGS`,
 		getInput("directory"),
 	);
 };
