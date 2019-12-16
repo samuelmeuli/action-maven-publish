@@ -21,7 +21,7 @@ const exit = msg => {
 /**
  * Executes the provided shell command and redirects stdout/stderr to the console
  */
-const run = cmd => execSync(cmd, { encoding: "utf8", stdio: "inherit" });
+const run = (cmd, cwd) => execSync(cmd, { encoding: "utf8", stdio: "inherit", cwd });
 
 /**
  * Returns the value for an environment variable (or `null` if it's not defined)
@@ -61,6 +61,7 @@ const runAction = () => {
 	log("Deploying the Maven project…");
 	run(
 		`mvn clean deploy --batch-mode --activate-profiles deploy --settings ${MAVEN_SETTINGS_PATH} $INPUT_MAVEN_ARGS`,
+		getInput("directory"),
 	);
 };
 

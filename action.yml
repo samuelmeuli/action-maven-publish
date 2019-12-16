@@ -19,6 +19,9 @@ inputs:
     description: Nexus server ID as specified in your project's `nexus-staging-maven-plugin` and `distributionManagement` configurations
     required: false
     default: ossrh
+  directory:
+    description: Directory of the Maven project which should be deployed
+    required: false
   maven_args:
     description: Additional flags/arguments to pass to the Maven deploy command
     required: false
