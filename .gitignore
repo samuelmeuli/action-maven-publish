@@ -1,1 +1,5 @@
+# NPM
 node_modules/
+
+# Maven
+target/
