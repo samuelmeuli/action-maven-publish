@@ -73,8 +73,9 @@ Every time you push to `master`, the action will be executed. If your `pom.xml` 
 
 In addition to the input variables listed above, the action can be configured with the following options:
 
-- **`server_id`:** The default Nexus instance used by this action is OSSRH. If you are deploying to a different Nexus instance, you can specify the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations) here
+- **`directory`:** Directory of the Maven project which should be deployed
 - **`maven_args`:** Additional flags/arguments to pass to the Maven `deploy` command
+- **`server_id`:** The default Nexus instance used by this action is OSSRH. If you are deploying to a different Nexus instance, you can specify the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations) here
 
 ## Development
 
