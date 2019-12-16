@@ -1,6 +1,6 @@
 {
 	"name": "action-maven-publish",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "GitHub Action for automatically publishing Maven packages",
 	"author": {
 		"name": "Samuel Meuli",
