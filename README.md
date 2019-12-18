@@ -26,12 +26,17 @@ Make sure your project is correctly configured for deployment before continuing 
 
 In your project's GitHub repository, go to Settings → Secrets. On this page, set the following variables:
 
+- `nexus_username`: Username (not email!) for your Nexus repository manager account
+- `nexus_password`: Password for your Nexus account
+
+Signing your artifact using GPG is optional, but recommended. If you choose to use GPG, add the following secrets:
+
 - `gpg_private_key`: GPG private key for signing the published artifacts:
   - Run `gpg --list-secret-keys` and copy the ID of the key you'd like to use
   - Export the key with `gpg -a --export-secret-keys KEY_ID` (and replace `KEY_ID` with the ID you copied)
 - `gpg_passphrase`: Passphrase for the GPG key
-- `nexus_username`: Username (not email!) for your Nexus repository manager account
-- `nexus_password`: Password for your Nexus account
+
+If you sign your artifacts, make sure the `maven-gpg-plugin` is configured as described [here](https://github.com/samuelmeuli/action-maven-publish/blob/master/docs/deployment-setup.md#project-configuration).
 
 #### Workflow file
 
