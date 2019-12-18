@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-10.14, ubuntu-18.04, windows-2019]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Git repository
@@ -33,7 +33,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-10.14, ubuntu-18.04, windows-2019]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Git repository
