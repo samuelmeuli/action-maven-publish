@@ -45,15 +45,21 @@ const getInput = (name, required) => {
  */
 const runAction = () => {
 	// Make sure the required input variables are provided
-	getInput("gpg_passphrase", true);
 	getInput("nexus_username", true);
 	getInput("nexus_password", true);
 
 	// Import GPG key into keychain
-	log("Importing GPG key…");
-	writeFileSync(gpgKeyPath, getInput("gpg_private_key", true));
-	run(`gpg --import --batch ${gpgKeyPath}`);
-	unlinkSync(gpgKeyPath);
+	const privateKey = getInput("gpg_private_key");
+	if (privateKey) {
+		// Make sure passphrase is provided
+		getInput("gpg_passphrase", true);
+
+		// Import private key (write into temporary file and import that file)
+		log("Importing GPG key…");
+		writeFileSync(gpgKeyPath, privateKey);
+		run(`gpg --import --batch ${gpgKeyPath}`);
+		unlinkSync(gpgKeyPath);
+	}
 
 	// Deploy to Nexus
 	// The "deploy" profile is used in case the user wants to perform certain steps only during

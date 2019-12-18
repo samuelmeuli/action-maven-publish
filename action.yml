@@ -5,10 +5,10 @@ description: GitHub Action for automatically publishing Maven packages
 inputs:
   gpg_private_key:
     description: GPG private key for signing the published artifacts
-    required: true
+    required: false
   gpg_passphrase:
     description: Passphrase for the GPG key
-    required: true
+    required: false
   nexus_username:
     description: Username (not email!) for your Nexus repository manager account
     required: true
