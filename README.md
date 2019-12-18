@@ -85,3 +85,8 @@ In addition to the input variables listed above, the action can be configured wi
 ## Development
 
 Suggestions and contributions are always welcome! Please discuss larger changes via issue before submitting a pull request.
+
+## Related
+
+- [Electron Builder Action](https://github.com/samuelmeuli/action-electron-builder) – GitHub Action for building and releasing Electron apps
+- [Snapcraft Action](https://github.com/samuelmeuli/action-snapcraft) – GitHub Action for setting up Snapcraft
