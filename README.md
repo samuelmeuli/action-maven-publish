@@ -1,4 +1,4 @@
-# Maven Publish GitHub Action
+# Maven Publish Action
 
 **GitHub Action for automatically publishing Maven packages**
 
