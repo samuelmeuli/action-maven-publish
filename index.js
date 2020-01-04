@@ -7,43 +7,53 @@ const mavenSettingsPath = path.join(__dirname, "settings.xml");
 
 /**
  * Logs to the console
+ * @param msg {string}: Text to log to the console
  */
-const log = msg => console.log(`\n${msg}`); // eslint-disable-line no-console
-
-/**
- * Exits the current process with an error code and message
- */
-const exit = msg => {
-	console.error(msg);
-	process.exit(1);
-};
+function log(msg) {
+	console.log(msg); // eslint-disable-line no-console
+}
 
 /**
  * Executes the provided shell command and redirects stdout/stderr to the console
+ * @param cmd {string}: Shell command to execute
+ * @param cwd {string | null}: Directory in which the command should be run
+ * @returns {Buffer | string}: The stdout from the command
  */
-const run = (cmd, cwd) => execSync(cmd, { encoding: "utf8", stdio: "inherit", cwd });
+function run(cmd, cwd = null) {
+	return execSync(cmd, { encoding: "utf8", stdio: "inherit", cwd });
+}
 
 /**
- * Returns the value for an environment variable (or `null` if it's not defined)
+ * Returns the value for an environment variable
+ * @param name {string}: Name of the environment variable
+ * @returns {string | undefined}: Value of the environment variable
  */
-const getEnv = name => process.env[name.toUpperCase()] || null;
+function getEnv(name) {
+	return process.env[name];
+}
 
 /**
- * Returns the value for an input variable (or `null` if it's not defined). If the variable is
- * required and doesn't have a value, abort the action
+ * Returns the value for an input variable. If the variable is required and doesn't have a value,
+ * abort the action
+ * @param name {string}: Name of the input variable
+ * @param required {boolean}: If set to true, the action will exit if the variable is not defined
+ * @returns {string | null}: Value of the input variable
  */
-const getInput = (name, required) => {
-	const value = getEnv(`INPUT_${name}`);
-	if (required && !value) {
-		exit(`"${name}" input variable is not defined`);
+function getInput(name, required = false) {
+	const value = getEnv(`INPUT_${name.toUpperCase()}`);
+	if (!value) {
+		if (required) {
+			throw new Error(`"${name}" input variable is not defined`);
+		}
+		return null;
 	}
 	return value;
-};
+}
 
 /**
- * Runs the deployment
+ * Deploys the Maven project
  */
-const runAction = () => {
+function runAction() {
 	// Make sure the required input variables are provided
 	getInput("nexus_username", true);
 	getInput("nexus_password", true);
@@ -72,6 +82,6 @@ const runAction = () => {
 		`mvn ${mavenGoalsPhases} --batch-mode --activate-profiles deploy --settings ${mavenSettingsPath} ${mavenArgs}`,
 		getInput("directory"),
 	);
-};
+}
 
 runAction();
