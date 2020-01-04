@@ -41,7 +41,8 @@ function getEnv(name) {
  */
 function getInput(name, required = false) {
 	const value = getEnv(`INPUT_${name.toUpperCase()}`);
-	if (!value) {
+	if (value == null) {
+		// Value is either not set (`undefined`) or set to `null`
 		if (required) {
 			throw new Error(`"${name}" input variable is not defined`);
 		}
