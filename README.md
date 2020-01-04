@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Install Java and Maven
         uses: actions/setup-java@v1
