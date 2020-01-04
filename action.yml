@@ -22,9 +22,14 @@ inputs:
   directory:
     description: Directory of the Maven project which should be deployed
     required: false
+  maven_goals_phases:
+    description: Maven build phases and goals to execute
+    required: false
+    default: clean deploy
   maven_args:
     description: Additional flags/arguments to pass to the Maven deploy command
     required: false
+    default: ""
 
 runs:
   using: node12

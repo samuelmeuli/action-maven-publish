@@ -48,6 +48,9 @@ const runAction = () => {
 	getInput("nexus_username", true);
 	getInput("nexus_password", true);
 
+	const mavenArgs = getInput("maven_args", true);
+	const mavenGoalsPhases = getInput("maven_goals_phases", true);
+
 	// Import GPG key into keychain
 	const privateKey = getInput("gpg_private_key");
 	if (privateKey) {
@@ -66,9 +69,7 @@ const runAction = () => {
 	// deployment and not in the install phase
 	log("Deploying the Maven project…");
 	run(
-		`mvn clean deploy --batch-mode --activate-profiles deploy --settings ${mavenSettingsPath} ${getInput(
-			"maven_args",
-		) || ""}`,
+		`mvn ${mavenGoalsPhases} --batch-mode --activate-profiles deploy --settings ${mavenSettingsPath} ${mavenArgs}`,
 		getInput("directory"),
 	);
 };
