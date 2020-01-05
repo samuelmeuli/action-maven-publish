@@ -81,7 +81,7 @@ function runAction() {
 	log("Deploying the Maven project…");
 	run(
 		`mvn ${mavenGoalsPhases} --batch-mode --activate-profiles deploy --settings ${mavenSettingsPath} ${mavenArgs}`,
-		getInput("directory"),
+		getInput("directory") || null,
 	);
 }
 
