@@ -1,6 +1,8 @@
 name: Lint
 
-on: push
+on:
+  - push
+  - pull_request
 
 jobs:
   run-linters:
@@ -11,7 +13,7 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Install Node.js and Yarn
+      - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
           node-version: 12
@@ -20,8 +22,11 @@ jobs:
         run: yarn install
 
       - name: Run linters
-        uses: samuelmeuli/lint-action@v0.3
+        uses: samuelmeuli/lint-action@v1
         with:
           github_token: ${{ secrets.github_token }}
+          auto_fix: ${{ github.event_name == 'pull_request' }}
           eslint: true
+          eslint_args: --ignore-path ./.gitignore
           prettier: true
+          prettier_args: --ignore-path ./.gitignore
