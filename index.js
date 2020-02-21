@@ -63,7 +63,7 @@ function runAction() {
 	const mavenGoalsPhases = getInput("maven_goals_phases", true);
 
 	// Import GPG key into keychain
-	const privateKey = getInput("gpg_private_key");
+	const privateKey = getInput("gpg_private_key").trim();
 	if (privateKey) {
 		// Make sure passphrase is provided
 		getInput("gpg_passphrase", true);
