@@ -72,7 +72,7 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
 ```
 
-Every time you push to `master`, the action will be executed. If your `pom.xml` file contains a non-snapshot version number and all tests pass, your package will be deployed automatically.
+The action will now run every time you push to `master`.
 
 ## Configuration
 
