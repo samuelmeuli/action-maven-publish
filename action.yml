@@ -31,7 +31,7 @@ inputs:
     required: false
     default: ""
   maven_profiles:
-    description: Maven active profiles
+    description: Active Maven profiles
     required: false
     default: "deploy"
 

@@ -79,7 +79,7 @@ The action will now run every time you push to `master`.
 In addition to the input variables listed above, the action can be configured with the following options:
 
 - **`directory`:** Directory of the Maven project to deploy. Default: Repository root
-- **`maven_profiles`:** Maven active profiles. Default: `"deploy"`
+- **`maven_profiles`:** Active Maven profiles. Default: `"deploy"`
 - **`maven_goals_phases`:** Maven goals and build phases to execute. Default: `"clean deploy"`
 - **`maven_args`:** Additional arguments to pass to the Maven command. Default: `""`
 - **`server_id`:** The default Nexus instance used by this action is OSSRH. If you are deploying to a different Nexus instance, you can specify the server ID you've used in your project's POM file (in the `nexus-staging-maven-plugin` and `distributionManagement` configurations) here
