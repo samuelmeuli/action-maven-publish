@@ -30,6 +30,10 @@ inputs:
     description: Additional arguments to pass to the Maven command
     required: false
     default: ""
+  maven_profiles:
+    description: Maven active profiles
+    required: false
+    default: "deploy"
 
 runs:
   using: node12
