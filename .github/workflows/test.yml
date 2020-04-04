@@ -77,7 +77,7 @@ jobs:
       - name: Run action
         uses: ./
         with:
-          directory: ./test/without-gpg/
+          directory: ./test/with-profiles/
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
           maven_profiles: release
