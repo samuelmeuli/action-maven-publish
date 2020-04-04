@@ -29,7 +29,7 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
 
   with-gpg:
-    if: github.repository == 'samuelmeuli/action-maven-publish' # Skip on forks
+    if: github.event_name == 'push' || github.repository == github.event.pull_request.head.repo.full_name
     runs-on: ${{ matrix.os }}
 
     strategy:
