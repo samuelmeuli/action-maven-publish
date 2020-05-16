@@ -27,7 +27,7 @@ Make sure your project is correctly configured for deployment before continuing 
 In your project's GitHub repository, go to Settings → Secrets. On this page, set the following variables:
 
 - `nexus_username`: Username (not email!) for your Nexus repository manager account
-- `nexus_password`: Password for your Nexus account
+- `nexus_password`: Password for your Nexus account (or, even better, use the [auth token](https://solidsoft.wordpress.com/2015/09/08/deploy-to-maven-central-using-api-key-aka-auth-token/) instead)
 
 Signing your artifact using GPG is optional, but recommended. If you choose to use GPG, add the following secrets:
 
