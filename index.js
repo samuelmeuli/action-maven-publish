@@ -61,7 +61,6 @@ function runAction() {
 
 	const mavenArgs = getInput("maven_args", true);
 	const mavenGoalsPhases = getInput("maven_goals_phases", true);
-	const mavenProfiles = getInput("maven_profiles", true);
 
 	// Import GPG key into keychain
 	const privateKey = getInput("gpg_private_key").trim();
@@ -76,12 +75,17 @@ function runAction() {
 		unlinkSync(gpgKeyPath);
 	}
 
+	let mavenProfiles = getInput("maven_profiles", true).trim();
+	if (mavenProfiles) {
+		mavenProfiles = `--activate-profiles ${mavenProfiles}`;
+	}
+
 	// Deploy to Nexus
 	// The "deploy" profile is used in case the user wants to perform certain steps only during
 	// deployment and not in the install phase
 	log("Deploying the Maven project…");
 	run(
-		`mvn ${mavenGoalsPhases} --batch-mode --activate-profiles ${mavenProfiles} --settings ${mavenSettingsPath} ${mavenArgs}`,
+		`mvn ${mavenGoalsPhases} --batch-mode ${mavenProfiles} --settings ${mavenSettingsPath} ${mavenArgs}`,
 		getInput("directory") || null,
 	);
 }
